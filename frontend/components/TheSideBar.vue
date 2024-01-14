@@ -93,8 +93,9 @@
       <ul class="space-y-2 font-medium">
         <li v-for="link in navLinks" :key="link">
           <NuxtLink
+            active-class="active-link"
             :to="link.to"
-            class="flex items-center p-4  font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black hover:text-red-primary hover:border-l-4 hover:border-red-primary dark:hover:bg-gray-700 dark:text-white group"
+            class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black hover:text-red-primary hover:border-l-4 hover:border-red-primary dark:hover:bg-gray-700 dark:text-white group"
           >
             <Icon :name="link.iconName" />
             <span class="ms-3">{{ link.name }}</span>
@@ -119,7 +120,7 @@ const showSideBar = ref<boolean>(false);
 const navLinks = ref([
   {
     name: "My Profile",
-    to: "/myprofile",
+    to: "/dashboard/myprofile",
     iconName: "iconamoon:profile-circle-duotone",
   },
   {
@@ -129,7 +130,7 @@ const navLinks = ref([
   },
   {
     name: "My Salary",
-    to: "/myprofile",
+    to: "/dashboard/mysalary",
     iconName: "fluent:grid-16-regular",
   },
 ]);

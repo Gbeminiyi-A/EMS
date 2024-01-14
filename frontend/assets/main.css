@@ -2,3 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active-link {
+    @apply  bg-black text-red-primary border-l-4 border-red-primary
+}
