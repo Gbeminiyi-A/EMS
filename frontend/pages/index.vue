@@ -9,7 +9,7 @@
     </div>
     <div class="md:w-1/2 w-full md:h-full mt-8 grid place-content-center">
       <h1 class="font-bold text-2xl text-center text-white-primary mb-8 uppercase">Ems Login</h1>
-      <form @submit.prevent="handleSignIn" class="gap-10 w-[400px]">
+      <FormComponent @submit="handleSignIn" class="gap-10 w-[400px]">
         <BaseInputComponent
           type="email"
           placeholder="example@gmail.com"
@@ -26,12 +26,12 @@
         <div class="flex justify-center items-center">
           <BaseButton
             :disabled="true"
-            class="bg-red-primary p-3 rounded-full w-[200px] text-white shadow-md hover:bg-red-500 duration-100"
+            class="red-button"
           >
             Sign In
           </BaseButton>
         </div>
-      </form>
+      </FormComponent>
     </div>
   </div>
 </template>

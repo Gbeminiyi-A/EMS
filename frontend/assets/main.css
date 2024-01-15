@@ -6,3 +6,6 @@
 .active-link {
     @apply  bg-black text-red-primary border-l-4 border-red-primary
 }
+.red-button {
+    @apply bg-red-primary p-3 rounded-full w-[200px] text-white shadow-md hover:bg-red-500 duration-100
+}

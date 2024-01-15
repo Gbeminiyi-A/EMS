@@ -41,16 +41,17 @@
             <div>
               <button
                 type="button"
-                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-red-primary dark:focus:ring-gray-600"
+                class="flex text-sm bg-gray-800 relative rounded-full focus:ring-4 focus:ring-red-primary dark:focus:ring-gray-600"
                 aria-expanded="false"
                 data-dropdown-toggle="dropdown-user"
               >
                 <span class="sr-only">Open user menu</span>
                 <img
                   class="w-8 h-8 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                  alt="user photo"
+                  src="../assets/user-avatar.png"
+                  alt="user-avatar"
                 />
+                <div class="absolute bottom-0 right-0 rounded-full w-3 h-3 bg-green-400 border-white-primary border-2"></div>
               </button>
             </div>
             <!-- <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
@@ -95,7 +96,7 @@
           <NuxtLink
             active-class="active-link"
             :to="link.to"
-            class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black hover:text-red-primary hover:border-l-4 hover:border-red-primary dark:hover:bg-gray-700 dark:text-white group"
+            class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black duration-100 hover:text-red-primary hover:border-l-4 hover:border-red-primary dark:hover:bg-gray-700 dark:text-white group"
           >
             <Icon :name="link.iconName" />
             <span class="ms-3">{{ link.name }}</span>
@@ -125,7 +126,7 @@ const navLinks = ref([
   },
   {
     name: "Update Info",
-    to: "/updateinfo",
+    to: "/dashboard/updateinfo",
     iconName: "ic:twotone-update",
   },
   {
