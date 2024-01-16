@@ -1,8 +1,13 @@
 <template>
   <div>
-    <!-- <NuxtLoadingIndicator color="red" :duration="1000" :height="6" :throttle="0"/> -->
+    <!-- <div v-if="loading" class="fixed left-0 top-0 h-0.5 w-full z-50 bg-green-500" /> -->
+
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
+
+<script lang="ts">
+
+</script>
