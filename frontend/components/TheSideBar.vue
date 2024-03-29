@@ -11,7 +11,7 @@
             data-drawer-toggle="logo-sidebar"
             aria-controls="logo-sidebar"
             type="button"
-            class="inline-flex items-center p-1 text-md text-white rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:bg-red-primary focus:ring-white dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            class="inline-flex items-center p-1 text-md text-white rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:bg-red-primary dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           >
             <span class="sr-only">Open sidebar</span>
             <svg
@@ -50,8 +50,11 @@
                   class="w-8 h-8 rounded-full"
                   src="../assets/user-avatar.png"
                   alt="user-avatar"
+                  ref="avatarImage"
                 />
-                <div class="absolute bottom-0 right-0 rounded-full w-3 h-3 bg-green-400 border-white-primary border-2"></div>
+                <div
+                  class="absolute bottom-0 right-0 rounded-full w-3 h-3 bg-green-400 border-white-primary border-2"
+                ></div>
               </button>
             </div>
             <!-- <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
@@ -92,24 +95,34 @@
   >
     <div class="h-full px-3 overflow-y-auto dark:bg-gray-800">
       <ul class="space-y-2 font-medium">
-        <li v-for="link in navLinks" :key="link">
+        <li v-for="link in employeeNavLinks" :key="link" v-if="!isAdmin">
           <NuxtLink
             active-class="active-link"
             :to="link.to"
-            class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black duration-100 hover:text-red-primary hover:border-l-4 hover:border-red-primary dark:hover:bg-gray-700 dark:text-white group"
+            class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black duration-100 hover:text-red-primary hover:border-l-4 hover:border-red-primary hover:font-bold dark:hover:bg-gray-700 dark:text-white group"
+          >
+            <Icon :name="link.iconName" />
+            <span class="ms-3">{{ link.name }}</span>
+          </NuxtLink>
+        </li>
+        <li v-for="link in adminNavLinks" :key="link" v-if="isAdmin">
+          <NuxtLink
+            active-class="active-link"
+            :to="link.to"
+            class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black duration-100 hover:text-red-primary hover:border-l-4 hover:border-red-primary hover:font-bold"
           >
             <Icon :name="link.iconName" />
             <span class="ms-3">{{ link.name }}</span>
           </NuxtLink>
         </li>
         <li>
-          <a
-            href="#"
-            class="flex items-center p-4 text-white-primary rounded-tr-full rounded-br-full hover:bg-black hover:text-red-primary hover:border-l-4 hover:border-red-primary dark:text-white dark:hover:bg-gray-700 group"
+          <NuxtLink
+            to="navigateTo('/')"
+            class="flex items-center p-4 text-white-primary rounded-tr-full rounded-br-full cursor-pointer hover:bg-black hover:text-red-primary hover:border-l-4 hover:border-red-primary hover:font-bold"
           >
             <Icon name="heroicons-outline:logout" />
             <span class="flex-1 ms-3 whitespace-nowrap">LogOut</span>
-          </a>
+          </NuxtLink>
         </li>
       </ul>
     </div>
@@ -118,7 +131,9 @@
 
 <script setup lang="ts">
 const showSideBar = ref<boolean>(false);
-const navLinks = ref([
+const employee = useEmployeeData();
+const { isAdmin } = storeToRefs(employee);
+const employeeNavLinks = ref<Link[]>([
   {
     name: "My Profile",
     to: "/dashboard/myprofile",
@@ -135,6 +150,45 @@ const navLinks = ref([
     iconName: "fluent:grid-16-regular",
   },
 ]);
+
+const adminNavLinks = ref<Link[]>([
+  {
+    name: "Dashboard",
+    to: "/admin/dashboard",
+    iconName: "ic:outline-dashboard",
+  },
+  {
+    name: "Add Employee",
+    to: "/admin/addEmployee",
+    iconName: "material-symbols:add-box-sharp",
+  },
+  {
+    name: "Add Project",
+    to: "/admin/addProject",
+    iconName: "octicon:project-16",
+  },
+  {
+    name: "Allocate Project",
+    to: "/admin/allcateProject",
+    iconName: "octicon:project-16",
+  },
+  {
+    name: "Update Salary",
+    to: "/admin/updateSalary",
+    iconName: "ic:baseline-update",
+  },
+]);
+
+const avatarImage = ref<HTMLImageElement | null>(null);
+watch(
+  () => employee.avatarSrc,
+  (newAvatarSrc) => {
+    if (avatarImage.value && newAvatarSrc) {
+      avatarImage.value.src = newAvatarSrc;
+    }
+  }
+);
 </script>
 
 <style scoped></style>
+~/types/Link

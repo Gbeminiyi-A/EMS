@@ -9,16 +9,19 @@ module.exports = {
     "./node_modules/flowbite/**/*.{js,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: ["checked"],
+    },
     colors: {
       "blue-primary": "#34374C",
       "blue-secondary": "#2C2E3E",
       "red-primary": "#EE2B47",
-      "white-primary": "#F5EDED"
+      "red-secondary": "#D91E3D",
+      "white-primary": "#F5EDED",
     },
     fontFamily: {
-      poppins: ["Poppins"]
-    }
+      poppins: ["Poppins"],
+    },
   },
   plugins: [require("flowbite/plugin")],
 };

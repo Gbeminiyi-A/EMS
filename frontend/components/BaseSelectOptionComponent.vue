@@ -1,10 +1,7 @@
 <template>
-  <div class="flex flex-col gap-2 border-0 bg-transparent">
-    <label :for="labelText" v-if="labelText" class="text-white-primary font-semibold text-md">{{ labelText }}</label>
-    <select class="border-blue-secondary border-2 focus:outline-none p-3 rounded-lg" v-model="selectOption" required>
-      <option value=""></option>
-      <option value=""></option>
-      <option value=""></option>
+  <div class="grid gap-2 border-0 bg-transparent">
+    <label v-if="labelText" class="text-white-primary font-semibold text-md">{{ labelText }}</label>
+    <select class="border-blue-secondary border-2 focus:outline-none p-[0.5rem] rounded-lg" v-model="selectOption" required>
       <option value=""></option>
     </select>
   </div>

@@ -1,22 +1,22 @@
 <template>
+  <AppPreLoader v-if="loading" />
   <div
     class="flex flex-col justify-center items-center gap-2 font-poppins"
+    v-else
   >
-    <h1 class="text-white font-bold text-2xl">Employee Profile</h1>
+    <h1 class="headers">Employee Profile</h1>
     <div class="bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-4">
-      <div class="bg-blue-primary rounded-full w-20 h-20 p-4">
-        <img :src="useAvatar" alt="user-avatar" />
-      </div>
-      <p class="text-white-primary text-sm">Select Image</p>
+      <UserAvatar />
+      <p class="text-white-primary text-sm">Select Image(.jpg, .jpeg, .png)</p>
       <BaseInputComponent
         :eye="false"
         type="file"
         class="text-white-primary outline-2 border-blue-secondary"
-        v-model="file"
+        ref="file"
+        accept=".png, .jpg, .jpeg"
+        @change="handleFileChange"
       />
-      <BaseButton
-        class="red-button"
-        @click="handleUploadImage"
+      <BaseButton class="red-button" @click="handleUploadImage"
         >Upload</BaseButton
       >
       <div class="grid grid-cols-2 mt-6">
@@ -32,12 +32,37 @@
 </template>
 
 <script setup lang="ts">
-import useAvatar from "../../assets/user-avatar.png";
 definePageMeta({
   layout: "dashboard",
 });
-const file = ref("");
-const handleUploadImage = () => {};
+const employee = useEmployeeData();
+const toast = useToast();
+const avatar = ref<HTMLImageElement | null>(null);
+const file = ref(null);
+const loading = ref(true);
+
+const handleFileChange = (event: Event) => {
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    file.value = selectedFile;
+  }
+};
+
+const handleUploadImage = () => {
+  if (file.value) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      // Update the user's avatar
+      employee.avatarSrc = reader.result;
+      //change src of img tag
+      if (avatar.value) {
+        avatar.value.src = employee.avatarSrc;
+      }
+    };
+    reader.readAsDataURL(file.value);
+  }
+  toast.addToast("Success", "success");
+};
 const employeeData = ref([
   {
     title: "Employee ID",
@@ -68,11 +93,17 @@ const employeeData = ref([
     data: "Python, MySql, Flask, Vuejs",
   },
 ]);
+
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false;
+  }, 3000);
+});
 </script>
 
 <style scoped>
 .setLabel:after {
-  content:" *";
+  content: " *";
   color: red;
 }
 </style>

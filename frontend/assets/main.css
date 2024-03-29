@@ -4,8 +4,15 @@
 @tailwind utilities;
 
 .active-link {
-    @apply  bg-black text-red-primary border-l-4 border-red-primary
+    @apply  bg-black text-red-primary border-l-4 border-red-primary font-bold
 }
 .red-button {
-    @apply bg-red-primary p-3 rounded-full w-[200px] text-white shadow-md hover:bg-red-500 duration-100
+    @apply bg-red-primary p-3 rounded-full w-[200px] text-white shadow-md hover:bg-red-500 duration-100 font-bold
+}
+
+body {
+    @apply font-poppins min-w-full min-h-screen bg-blue-secondary
+}
+.headers {
+    @apply text-white font-bold text-2xl
 }
