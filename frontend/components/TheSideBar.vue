@@ -11,7 +11,7 @@
             data-drawer-toggle="logo-sidebar"
             aria-controls="logo-sidebar"
             type="button"
-            class="inline-flex items-center p-1 text-md text-white rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:bg-red-primary dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            class="inline-flex items-center p-1 text-md text-white-primary rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:bg-red-primary dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           >
             <span class="sr-only">Open sidebar</span>
             <svg
@@ -53,7 +53,7 @@
                   ref="avatarImage"
                 />
                 <div
-                  class="absolute bottom-0 right-0 rounded-full w-3 h-3 bg-green-400 border-white-primary border-2"
+                  class="absolute bottom-0 right-0 rounded-full w-3 h-3 bg-green-primary border-white-primary border-2"
                 ></div>
               </button>
             </div>
@@ -93,12 +93,13 @@
     class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-blue-secondary transition-transform -translate-x-full sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 overflow-y-auto dark:bg-gray-800">
+    <div class="h-full px-3 overflow-y-auto sidebar dark:bg-gray-800">
       <ul class="space-y-2 font-medium">
         <li v-for="link in employeeNavLinks" :key="link" v-if="!isAdmin">
           <NuxtLink
             active-class="active-link"
             :to="link.to"
+            @click="showSideBar = false"
             class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black duration-100 hover:text-red-primary hover:border-l-4 hover:border-red-primary hover:font-bold dark:hover:bg-gray-700 dark:text-white group"
           >
             <Icon :name="link.iconName" />
@@ -109,6 +110,7 @@
           <NuxtLink
             active-class="active-link"
             :to="link.to"
+            @click="showSideBar = false"
             class="flex items-center p-4 font-poppins text-white-primary rounded-tr-full rounded-br-full hover:bg-black duration-100 hover:text-red-primary hover:border-l-4 hover:border-red-primary hover:font-bold"
           >
             <Icon :name="link.iconName" />
@@ -117,7 +119,7 @@
         </li>
         <li>
           <NuxtLink
-            to="navigateTo('/')"
+            :to="'/'"
             class="flex items-center p-4 text-white-primary rounded-tr-full rounded-br-full cursor-pointer hover:bg-black hover:text-red-primary hover:border-l-4 hover:border-red-primary hover:font-bold"
           >
             <Icon name="heroicons-outline:logout" />
@@ -169,13 +171,23 @@ const adminNavLinks = ref<Link[]>([
   },
   {
     name: "Allocate Project",
-    to: "/admin/allcateProject",
+    to: "/admin/allocateProject",
     iconName: "octicon:project-16",
+  },
+  {
+    name: "Add Designation",
+    to: "/admin/addDesignation",
+    iconName: "fluent-mdl2:party-leader",
   },
   {
     name: "Update Salary",
     to: "/admin/updateSalary",
     iconName: "ic:baseline-update",
+  },
+  {
+    name: "Admin Panel",
+    to: "/admin/adminPanel",
+    iconName: "ic:round-admin-panel-settings",
   },
 ]);
 
@@ -190,5 +202,17 @@ watch(
 );
 </script>
 
-<style scoped></style>
-~/types/Link
+<style scoped>
+.sidebar::-webkit-scrollbar {
+  width: 10px;
+  height: 2px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #ee2b47;
+  border-radius: 4px;
+}
+</style>

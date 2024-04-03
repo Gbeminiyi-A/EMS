@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-blue-primary rounded-full w-20 h-20 p-4 flex justify-center items-center"
+    class="bg-blue-primary rounded-full w-20 h-20 p-4 flex justify-center items-center hover:scale-75 duration-100"
   >
     <img :src="avatarImage" alt="user-avatar" ref="avatar" class="w-full h-full rounded-full object-fit" />
   </div>

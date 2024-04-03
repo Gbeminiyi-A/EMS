@@ -9,22 +9,22 @@ export const useToast = defineStore("useToast", () => {
       toastText.value = text;
       switch (status) {
         case "success":
-          bgColor.value = "bg-green-100";
+          bgColor.value = "#114232";
           icon.value = "icon-park-solid:success"
           break;
         case "error":
-          bgColor.value = "bg-red-400";
+          bgColor.value = "#ff004d";
           icon.value = "ic:sharp-error"
           break;
         case "info":
-          bgColor.value = "bg-yellow-300";
+          bgColor.value = "#ffc700";
           break;
       }
       setTimeout(() => {
         showToast.value = false;
         toastText.value = "";
         bgColor.value = "";
-      }, 4000);
+      }, 5000);
     };
     return { showToast, addToast, bgColor, toastText, icon };
   });

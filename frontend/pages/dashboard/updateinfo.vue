@@ -4,37 +4,40 @@
     class="flex flex-col justify-center items-center gap-2 font-poppins"
     v-else
   >
-    <ModalToast v-if="runToast" @closeModal="runToast = false" />
+    <SuccessToast v-show="runToast" @closeModal="runToast = false" />
     <h1 class="headers">Employee Profile</h1>
-    <div class="bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-4">
+    <div class="container">
       <div
         class="flex justify-center md:justify-start items-center w-full px-6"
       >
         <UserAvatar />
       </div>
       <FormComponent @submit="">
-        <fieldset class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <fieldset class="md:p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           <BaseInputComponent
             :eye="false"
-            type="number"
+            inputType="number"
             labelText="Employee ID"
+            placeholder="Enter employee ID"
           />
           <BaseInputComponent
             :eye="false"
-            type="text"
+            inputType="text"
             labelText="Employee First Name"
+            placeholder="First Name"
           />
           <BaseInputComponent
             :eye="false"
-            type="text"
+            inputType="text"
             labelText="Employee Last Name"
+            placeholder="Last Name"
           />
-          <BaseSelectOptionComponent labelText="Gender" />
-          <BaseSelectOptionComponent labelText="Marital Status" />
-          <BaseSelectOptionComponent labelText="Higher Education" />
+          <BaseSelectOptionComponent labelText="Gender" placeholder="Select Gender"/>
+          <BaseSelectOptionComponent labelText="Marital Status" placeholder="Select Status"/>
+          <BaseSelectOptionComponent labelText="Higher Education" placeholder="Choose..." />
           <BaseInputComponent
             :eye="false"
-            type="date"
+            inputType="date"
             labelText="Date of joining"
           />
         </fieldset>

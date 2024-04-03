@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active-link {
+  @apply bg-black text-red-primary border-l-4 border-red-primary font-bold;
+}
+.red-button {
+  @apply bg-red-primary p-3 rounded-full w-[200px] text-white-primary shadow-md hover:bg-red-secondary duration-100 font-bold;
+}
+
+body {
+  @apply font-poppins min-w-full min-h-screen bg-blue-secondary;
+}
+.headers {
+  @apply text-white-primary font-bold text-lg md:text-2xl;
+}
+.red-button-2 {
+  @apply bg-red-primary font-bold text-white-primary p-3 rounded-md mt-2 hover:bg-red-secondary duration-150 shadow-md;
+}
+.label {
+  @apply font-semibold text-base text-white-primary capitalize;
+}
+.container {
+  @apply bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-4;
+}
+
+@layer utilities {
+  .text-red-primary {
+    color: #ff004d;
+  }
+  .text-gray-primary {
+    color: #f1efef;
+  }
+  .text-gray-secondary {
+    color: #7d7c7c;
+  }
+  .text-white-primary {
+    color: #fff;
+  }
+  .text-black-primary {
+    color: #000;
+  }
+  .border-red-primary {
+    border-color: #ff004d;
+  }
+  .border-blue-secondary {
+    border-color: #0f1035;
+  }
+  .bg-red-primary {
+    background-color: #ff004d;
+  }
+  .bg-green-primary {
+    background-color: #114232;
+  }
+  .bg-yellow-primary {
+    background-color: #ffc700;
+  }
+  .font-poppins {
+    font-family: "Poppins", sans-serif;
+  }
+  .bg-blue-secondary {
+    background-color: #0f1035;
+  }
+  .bg-white-primary {
+    background-color: #eee;
+  }
+  .bg-blue-primary {
+    background-color: #1b1a55;
+  }
+}

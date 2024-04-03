@@ -1,12 +1,12 @@
 <template>
   <div
     v-for="data in employerDetails"
-    class="bg-blue-secondary shadow shadow-blue-secondary w-1/4 rounded flex justify-between h-[25%] p-2"
+    class="bg-blue-secondary shadow shadow-blue-secondary rounded flex justify-between p-2"
   >
-    <Icon :name="data.iconName" color="red" size="48px" />
+    <Icon :name="data.iconName" color="red" size="32px" />
     <div class="">
-      <h3 class="text-md text-gray-500">{{ data.title }}</h3>
-      <p class="text-white text-sm">{{ data.data }}</p>
+      <h3 class="text-md text-gray-primary">{{ data.title }}</h3>
+      <p class="text-white-primary text-sm">{{ data.data }}</p>
     </div>
   </div>
 </template>

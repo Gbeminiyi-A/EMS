@@ -1,19 +1,14 @@
 <template>
-  <div class="relative border-0 bg-transparent">
-    <label
-      v-if="labelText"
-      class="font-semibold text-md text-white-primary capitalize"
-      >{{ labelText }}</label
-    >
+  <div class="relative border-none outline-none bg-transparent">
+    <label v-if="labelText" class="label">{{ labelText }}</label>
     <input
       :value="modelValue"
       @input="updateInput($event)"
       :type="inputType"
       :placeholder="placeholder"
-      required
       v-bind="$attrs"
       ref="input"
-      class="border-blue-secondary border-2 focus:outline-none p-3 rounded-lg w-full"
+      :class="inputClasses"
     />
     <Icon
       name="pepicons-pop:eye"
@@ -41,7 +36,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "State Placeholder",
+    default: "",
   },
   eye: {
     type: Boolean,
@@ -60,12 +55,19 @@ const updateInput = (event: Event) => {
 const changeInputType = () => {
   input.value!.type = input.value!.type === "password" ? "text" : "password";
 };
+const inputClasses = computed(() => {
+  if (props.inputType === "checkbox") {
+    return "h-4 w-4 bg-red-primary border-none outline-none focus:outline-none";
+  }
+  return "border-blue-secondary border outline-none focus:outline-none p-3 rounded-lg w-full mb-2 placeholder:text-black-primary";
+});
 </script>
 
 <style scoped>
 label:after {
   content: " *";
   color: red;
+  white-space: nowrap;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -76,5 +78,18 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+input[type="checkbox"] {
+  background-color: #000;
+  border-radius: 0;
+  border: 0;
+  outline: none;
+}
+input[type="checkbox"]:checked {
+  background-color: red;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  color: #ee2b47;
 }
 </style>

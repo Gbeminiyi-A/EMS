@@ -15,7 +15,7 @@
       >
         Ems Login
       </h1>
-      <FormComponent @submit="handleSignIn" class="">
+      <FormComponent @submit="handleSignIn">
         <BaseInputComponent
           type="email"
           placeholder="example@gmail.com"
@@ -29,16 +29,18 @@
           labelText="Password"
           v-model="password"
         />
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center mt-6">
           <BaseButton :disabled="true" class="red-button"> Sign In </BaseButton>
         </div>
         <div
-          class="border-2 border-white-primary min-w-full relative mt-8 rounded-2xl"
+          class="border-2 border-white-primary min-w-full relative mt-10 rounded-2xl"
         >
           <div
             class="text-white-primary p-2 bg-blue-secondary absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
           >
-            <span>Forget Password?</span>
+            <a href="#" class="hover:text-red-primary duration-200"
+              >Forget Password?</a
+            >
           </div>
         </div>
       </FormComponent>
@@ -50,11 +52,11 @@
 const employeeData = useEmployeeData();
 const password = ref<string>("");
 const handleSignIn = () => {
-  if (employeeData.isAdmin) {
-    navigateTo("/admin/dashboard");
-  } else {
+  if (!employeeData.isAdmin) {
     navigateTo("/dashboard/myprofile");
+    return;
   }
+  navigateTo("/admin/dashboard");
 };
 </script>
 

@@ -5,19 +5,16 @@
     v-else
   >
     <h1 class="headers">My Salary</h1>
-    <div class="bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-4">
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
         <BaseSelectOptionComponent labelText="Select Month" />
         <BaseSelectOptionComponent labelText="Select Year" />
         <BaseButton
-          class="bg-red-primary font-bold text-white p-3 rounded-md md:leading-[2rem] hover:bg-red-500 duration-150 shadow-md"
+          class="min-w-fit max-w-[200px] h-[50px] bg-red-primary font-bold text-white-primary p-2 rounded-md hover:bg-red-secondary duration-150 shadow-md"
           >Submit</BaseButton
         >
       </div>
-      <BaseButton
-        class="bg-red-primary font-bold text-white p-3 rounded-md w-full mt-2 hover:bg-red-500 duration-150 shadow-md"
-        >Print Payslip</BaseButton
-      >
+      <BaseButton class="red-button-2">Print Payslip</BaseButton>
     </div>
   </div>
 </template>

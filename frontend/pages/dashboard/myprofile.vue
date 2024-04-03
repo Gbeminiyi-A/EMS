@@ -5,13 +5,13 @@
     v-else
   >
     <h1 class="headers">Employee Profile</h1>
-    <div class="bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-4">
+    <div class="container">
       <UserAvatar />
       <p class="text-white-primary text-sm">Select Image(.jpg, .jpeg, .png)</p>
       <BaseInputComponent
         :eye="false"
-        type="file"
-        class="text-white-primary outline-2 border-blue-secondary"
+        inputType="file"
+        class="text-white-primary cursor-pointer border-none py-2"
         ref="file"
         accept=".png, .jpg, .jpeg"
         @change="handleFileChange"
@@ -20,12 +20,9 @@
         >Upload</BaseButton
       >
       <div class="grid grid-cols-2 mt-6">
-        <div v-for="data in employeeData" :key="data">
-          <div class="text-center">
-            <h3 class="text-white-primary setLabel">{{ data.title }}</h3>
-            <p class="text-gray-500">{{ data.data }}</p>
-          </div>
-        </div>
+        <EmployeeProfileCard
+          :employeeData="employeeData"
+        />
       </div>
     </div>
   </div>
@@ -102,8 +99,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.setLabel:after {
-  content: " *";
-  color: red;
-}
+
 </style>

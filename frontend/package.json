@@ -13,12 +13,22 @@
     "@nuxtjs/tailwindcss": "^6.10.4",
     "nuxt": "^3.9.1",
     "nuxt-icon": "^0.6.8",
+    "shadcn-nuxt": "^0.10.2",
+    "typescript": "^5.4.3",
     "vue": "^3.4.10",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "@radix-icons/vue": "^1.0.0",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "flowbite": "^2.2.1",
-    "pinia": "^2.1.7"
+    "pinia": "^2.1.7",
+    "radix-vue": "^1.6.1",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7"
   }
 }

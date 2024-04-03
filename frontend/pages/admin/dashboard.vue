@@ -1,54 +1,39 @@
 <template>
-  <div class="flex flex-col justify-center items-center gap-2 font-poppins">
-    <div class="flex justify-between items-center w-full gap-4">
+  <AdminModal v-show="showModal" @closeModal="showModal = false" />
+  <AppPreLoader v-if="loading" />
+  <div
+    class="flex flex-col justify-center items-center gap-4 font-poppins"
+    v-else
+  >
+    <button @click="showModal = !showModal" class="red-button">Test</button>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 w-full gap-4">
       <AdminCompanyData :employerDetails="employerDetails" />
     </div>
     <div class="bg-blue-secondary w-full p-3 rounded">
-      <div class="flex justify-between w-full items-center font-semibold">
-        <h3 class="text-white text-md mb-4">Recent Projects</h3>
-        <p class="text-red-primary">Show all</p>
-      </div>
-      <table class="border-collapse">
-        <tr class="border">
-          <th class="border">
-            <BaseInputComponent
-              :eye="false"
-              type="checkbox"
-              class="w-4 bg-black rounded-none"
-            />
-          </th>
-          <th
-            v-for="title in recentProjectHeaders"
-            class="text-white border font-normal text-md"
-          >
-            {{ title }}
-          </th>
-        </tr>
-        <tr class="border text-center" v-for="i in 3">
-          <td class="border">
-            <BaseInputComponent
-              :eye="false"
-              type="checkbox"
-              class="w-4 bg-black rounded-none"
-            />
-          </td>
-          <td v-for="i in 6" class="border text-gray-500">
-            Alfreds Futterkiste
-          </td>
-          <td class="border">
-            <BaseButton
-              class="bg-red-primary text-white p-1 rounded hover:bg-red-500 duration-150"
-              >View</BaseButton
-            >
-          </td>
-        </tr>
-      </table>
+      <AdminDataTable
+        :projectHeaders="recentProjectHeaders"
+        title="Recent Projects"
+        status="Show all"
+        buttonName="View"
+        :showCheckBox="true"
+      />
+    </div>
+    <div class="bg-blue-secondary w-full p-3 rounded">
+      <AdminDataTable
+        :projectHeaders="recentEmployeesHeaders"
+        title="Recent Joined Employees"
+        status="Show all"
+        buttonName="View"
+        :showCheckBox="true"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const loading = ref(true);
+const showModal = ref(false);
 definePageMeta({
   layout: "dashboard",
 });
@@ -89,14 +74,15 @@ const recentProjectHeaders = ref<string[]>([
   "To",
   "View Details",
 ]);
+const recentEmployeesHeaders = ref<string[]>([
+  "Employee ID",
+  "Employee Name",
+  "Designation",
+  "Experience",
+  "Skills",
+  "Doj",
+  "View Details",
+]);
 </script>
 
-<style scoped>
-th,
-td {
-  border-color: #000;
-}
-[type="checkbox"]:checked {
-  background-color: red;
-}
-</style>
+<style scoped></style>
