@@ -22,9 +22,9 @@ export const useToast = defineStore("useToast", () => {
       }
       setTimeout(() => {
         showToast.value = false;
-        toastText.value = "";
-        bgColor.value = "";
-      }, 5000);
+        // toastText.value = "";
+        // bgColor.value = "";
+      }, 4000);
     };
     return { showToast, addToast, bgColor, toastText, icon };
   });

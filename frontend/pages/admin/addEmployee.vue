@@ -53,7 +53,14 @@
               :eye="false"
               inputType="date"
               labelText="Date of Joining"
-              v-model="dateOfJoining"
+              v-model="dateJoined"
+            />
+            <BaseInputComponent
+              :eye="false"
+              inputType="text"
+              labelText="Manager"
+              placeholder="Enter Manager's Name"
+              v-model="manager"
             />
             <BaseSelectOptionComponent
               labelText="Designation"
@@ -61,21 +68,30 @@
               v-model="designation"
               :options="designationOptions"
             />
+            <BaseSelectOptionComponent
+              labelText="Status"
+              placeholder="Choose..."
+              v-model="status"
+              :options="workStatusOptions"
+            />
           </div>
         </fieldset>
-        <BaseButton class="red-button-2 block mx-auto"
-          >Submit Details</BaseButton
-        >
+        <BaseButton class="font-bold bg-white-primary p-3 rounded-lg shadow hover:shadow-lg duration-200 shadow-red-primary block mx-auto my-8">
+          <img src="@/assets/infinity-spinner.gif" class="w-8 inline" v-if="isSubmitting"/>
+          <span v-if="!isSubmitting">Submit details</span>
+          <span v-else>Submitting...</span>
+        </BaseButton>
       </FormComponent>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type Input from "@/types/Input.ts";
-import type Employee from "@/types/Employee.ts";
 const loading = ref(true);
+const isSubmitting = ref(false);
 const toast = useToast();
+const { createEmployee } = useEmployee();
+//page meta
 definePageMeta({
   layout: "dashboard",
 });
@@ -90,8 +106,10 @@ const gender = ref("");
 const maritalStatus = ref("");
 const highestEducation = ref("");
 const skills = ref("");
-const dateOfJoining = ref("");
+const dateJoined = ref("");
 const designation = ref("");
+const manager = ref("");
+const status = ref("");
 
 //options
 const genderOptions = ref<string[]>(["Male", "Female", "Others"]);
@@ -108,24 +126,19 @@ const educationOptions = ref<string[]>([
   "Masters",
   "PhD",
 ]);
-const designationOptions = ref<string[]>(["None"])
+const designationOptions = ref<string[]>(["None"]);
+const workStatusOptions = ref<string[]>([
+  "Active",
+  "Sick",
+  "Leave",
+  "Resigned",
+]);
 //data
 const personalData = ref<Input[]>([
-  {
-    label: "Employee ID",
-    type: "number",
-    placeholder: "Enter employee ID",
-    value: "",
-  },
   {
     label: "Name",
     type: "text",
     placeholder: "Enter your full name",
-    value: "",
-  },
-  {
-    label: "Date of Birth",
-    type: "date",
     value: "",
   },
   {
@@ -142,8 +155,8 @@ const personalData = ref<Input[]>([
   },
 ]);
 //validation
-import { required, minLength, email } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
+import { required, minLength, email } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 const v$ = useVuelidate(
   {
     personalData: {
@@ -155,8 +168,10 @@ const v$ = useVuelidate(
     maritalStatus: { required },
     highestEducation: { required },
     skills: { required },
-    dateOfJoining: { required },
+    dateJoined: { required },
     designation: { required },
+    manager: { required },
+    status: { required },
   },
   {
     personalData,
@@ -164,12 +179,14 @@ const v$ = useVuelidate(
     maritalStatus,
     highestEducation,
     skills,
-    dateOfJoining,
+    dateJoined,
     designation,
+    manager,
+    status,
   }
 );
 
-//reset form 
+//reset form
 const resetForm = () => {
   personalData.value.forEach((input) => {
     input.value = "";
@@ -178,12 +195,14 @@ const resetForm = () => {
   maritalStatus.value = "";
   highestEducation.value = "";
   skills.value = "";
-  dateOfJoining.value = "";
+  dateJoined.value = "";
   designation.value = "";
+  manager.value = "";
+  status.value = "";
 };
 
 //employee's Data object
-const handleFormSubmit = () => {
+const handleFormSubmit = async () => {
   //validate the form
   v$.value.$touch();
   if (v$.value.$error) {
@@ -194,21 +213,26 @@ const handleFormSubmit = () => {
     toast.addToast("Please correct the errors in the form", "error");
     return;
   }
+  isSubmitting.value = true;
   //create employee object
   let employeeObject = ref<Employee>({});
   personalData.value.forEach((element) => {
-    employeeObject[element.label.toLowerCase().replace(/\s/g, "_")] =
+    employeeObject.value[element.label.toLowerCase().replace(/\s/g, "_")] =
       element.value;
   });
-  employeeObject["gender"] = gender.value;
-  employeeObject["marital_status"] = maritalStatus.value;
-  employeeObject["highest_education"] = highestEducation.value;
-  employeeObject["skills"] = skills.value;
-  employeeObject["data_of_joinng"] = dateOfJoining.value;
-  employeeObject["designation"] = designation.value;
-  console.log(employeeObject);
-  toast.addToast("Employee successfully added", "success");
+  employeeObject.value["gender"] = gender.value;
+  employeeObject.value["marital_status"] = maritalStatus.value;
+  employeeObject.value["highest_education"] = highestEducation.value;
+  employeeObject.value["skills"] = skills.value;
+  employeeObject.value["date_joined"] = dateJoined.value;
+  employeeObject.value["designation"] = designation.value;
+  employeeObject.value["manager"] = manager.value;
+  employeeObject.value["status"] = status.value;
+
+  await createEmployee(employeeObject.value);
+  console.log(employeeObject.value);
   resetForm();
+  isSubmitting.value = false;
 };
 </script>
 

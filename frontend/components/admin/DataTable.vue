@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between w-full items-center font-semibold text-md">
     <h3 class="text-white-primary mb-4">{{ title }}</h3>
-    <p class="text-red-primary">{{ status }}</p>
+    <p class="text-red-primary hover:text-white-primary duration-200 cursor-pointer" v-if="status">{{ status }}</p>
   </div>
   <div class="table-container">
     <table class="border-collapse w-full">
@@ -24,7 +24,8 @@
       </tr>
       <tr
         class="border text-center hover:bg-blue-primary duration-150"
-        v-for="(i, index) in 3"
+        v-if="datas"
+        v-for="(data, index) in filteredDatas"
       >
         <td class="border">
           <BaseInputComponent
@@ -37,16 +38,21 @@
             {{ index + 1 }}
           </p>
         </td>
-        <td v-for="i in getLength" class="border text-gray-secondary text-sm">
-          Alfreds Futterkiste
+        <td v-for="d in data" class="border text-gray-secondary text-sm">
+          {{ d }}
         </td>
         <td class="border">
           <BaseButton
+            @click="showDetails(data.id)"
+            v-if="buttonName"
             class="bg-red-primary text-white-primary p-1 rounded hover:bg-red-secondary duration-150"
             >{{ buttonName }}</BaseButton
           >
         </td>
       </tr>
+      <!-- <tr class="w-full" v-else>
+        <h3 class="text-center text-2xl text-white-primary">No Data</h3>
+      </tr> -->
     </table>
   </div>
 </template>
@@ -55,17 +61,36 @@
 const props = defineProps<{
   projectHeaders: Array<string>;
   title: string;
-  status: string;
-  buttonName: string;
+  status: string | boolean;
+  buttonName: string | boolean;
   showCheckBox: boolean;
+  datas: any;
 }>();
-const getLength = computed(() => props.projectHeaders.length - 1);
-// const emit = defineEmits<{
-//   (e: "showDetails"): void;
-// }>();
-// const showDetails = () => {
-//   emit("showDetails");
-// };
+const getLength = computed(() => {
+  if (props.buttonName) {
+    return props.projectHeaders.length - 1;
+  }
+  return props.projectHeaders.length;
+});
+// Create a computed property that filters the datas array
+const keysToInclude = ref(['id', 'name', 'designation', 'skills', 'date_joined']);
+
+const filteredDatas = computed(() => {
+  return props.datas.map(data => {
+    let filteredData = {};
+    keysToInclude.value.forEach(key => {
+      filteredData[key] = data[key];
+    });
+    return filteredData;
+  });
+});
+//emitted events
+const emit = defineEmits<{
+  (e: "showDetails", data): any;
+}>();
+const showDetails = (data: any) => {
+  emit("showDetails", data);
+};
 </script>
 
 <style scoped>
@@ -85,7 +110,8 @@ th,
 td {
   border-color: #000;
   padding: 8px;
-  whitespace: nowrap;
+  width: fit-content;
+  white-space: nowrap;
 }
 [type="checkbox"]:checked {
   background-color: red;

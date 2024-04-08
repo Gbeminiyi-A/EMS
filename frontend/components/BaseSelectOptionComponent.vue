@@ -4,12 +4,20 @@
       labelText
     }}</label>
     <select
-      class="border border-blue-primary duration-150 outline-none focus:outline-none rounded-lg p-3"
+      class="border border-blue-primary duration-150 outline-none focus:outline-none rounded-lg p-3 hover:cursor-pointer"
       v-model="selectedOption"
       @change="handleOptionChange"
     >
-      <option value="selected">{{ placeholder }}</option>
-      <option :value="option" v-for="option in options">{{ option }}</option>
+      <option value="selected" class="hover:cursor-pointer">
+        {{ placeholder }}
+      </option>
+      <option
+        :value="option"
+        v-for="option in options"
+        class="hover:cursor-pointer"
+      >
+        {{ option }}
+      </option>
     </select>
   </div>
 </template>

@@ -11,7 +11,7 @@
 }
 
 body {
-  @apply font-poppins min-w-full min-h-screen bg-blue-secondary;
+  @apply font-poppins min-w-full min-h-screen;
 }
 .headers {
   @apply text-white-primary font-bold text-lg md:text-2xl;

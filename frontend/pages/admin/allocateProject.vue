@@ -11,7 +11,7 @@
       <BaseInputComponent
         :eye="false"
         labelText="Employee Id"
-        type="number"
+        inputType="number"
         placeholder="Enter Employee Id"
       />
       <div class="p-4 md:p-0">
@@ -36,14 +36,14 @@
         />
         <BaseInputComponent
           :eye="false"
-          type="text"
+          inputType="text"
           labelText="Role"
           placeholder="Enter Role In the Project"
         />
       </div>
       <BaseInputComponent
         :eye="false"
-        type="date"
+        inputType="date"
         labelText="Date Of Allocation"
       />
       <div class="block w-full">

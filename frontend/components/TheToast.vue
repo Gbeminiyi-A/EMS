@@ -10,7 +10,9 @@
       >
         <Icon :name="toast.icon" size="24px" :color="toast.bgColor" />
       </div>
-      <div class="ms-3 text-sm font-normal text-white-primary">{{ toast.toastText }}</div>
+      <div class="ms-3 text-sm font-normal text-white-primary">
+        {{ toast.toastText }}
+      </div>
       <button
         @click="handleToast"
         type="button"
@@ -44,6 +46,10 @@ const toast = useToast();
 const emit = defineEmits(["close"]);
 const handleToast = () => {
   emit("close");
+};
+const clearToast = () => {
+  toast.toastText.value = "";
+  toast.bgColor.value = "";
 };
 </script>
 

@@ -4,9 +4,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   imports: {
     autoImport: true,
-    dirs: ["stores"],
+    dirs: ["stores", "composables", "types"],
   },
-  modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@pinia/nuxt", "shadcn-nuxt"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "nuxt-icon",
+    "@pinia/nuxt",
+    "shadcn-nuxt",
+  ],
   css: ["@/assets/css/tailwind.css"],
   plugins: ["@/plugins/loading.ts"],
   shadcn: {

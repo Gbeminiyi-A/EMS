@@ -1,12 +1,24 @@
 <template>
-  <AdminModal v-show="showModal" @closeModal="showModal = false" />
+  <!-- showing view of recent employee -->
+  <AdminModal
+    v-show="showModal"
+    @closeModal="showModal = false"
+    title="View Employee Details"
+  >
+    <template #body>
+      <AdminViewContent
+        :currentEmployeeId="currentEmployeeId"
+        v-if="currentEmployeeId"
+      />
+    </template>
+  </AdminModal>
+  <!-- end -->
+
   <AppPreLoader v-if="loading" />
   <div
     class="flex flex-col justify-center items-center gap-4 font-poppins"
     v-else
   >
-    <button @click="showModal = !showModal" class="red-button">Test</button>
-
     <div class="grid grid-cols-2 lg:grid-cols-4 w-full gap-4">
       <AdminCompanyData :employerDetails="employerDetails" />
     </div>
@@ -26,6 +38,9 @@
         status="Show all"
         buttonName="View"
         :showCheckBox="true"
+        :datas="employees"
+        @showDetails="passEmployeeData"
+        v-if="employees"
       />
     </div>
   </div>
@@ -34,18 +49,27 @@
 <script setup lang="ts">
 const loading = ref(true);
 const showModal = ref(false);
+const toast = useToast();
+const currentEmployeeId = ref(null);
+
+const { getEmployees } = useEmployee();
+const { employees } = storeToRefs(useEmployer());
+
+//page meta
 definePageMeta({
   layout: "dashboard",
 });
-onMounted(() => {
-  setTimeout(() => {
-    loading.value = false;
-  }, 3000);
-});
+//functions
+const passEmployeeData = (data: any) => {
+  showModal.value = true;
+  currentEmployeeId.value = data;
+  console.log(currentEmployeeId.value);
+};
+//datas
 const employerDetails = ref([
   {
     title: "Total Employees",
-    data: 100,
+    data: employees.value.length,
     iconName: "clarity:employee-group-solid",
   },
   {
@@ -60,7 +84,7 @@ const employerDetails = ref([
   },
   {
     title: "Total Revenue",
-    data: "$42000",
+    data: `₦${9000 * employees.value.length}`,
     iconName: "clarity:employee-group-solid",
   },
 ]);
@@ -78,11 +102,15 @@ const recentEmployeesHeaders = ref<string[]>([
   "Employee ID",
   "Employee Name",
   "Designation",
-  "Experience",
   "Skills",
   "Doj",
-  "View Details",
+  "View",
 ]);
+//lifecycle hooks
+onMounted(async () => {
+  await getEmployees();
+  loading.value = false;
+});
 </script>
 
 <style scoped></style>

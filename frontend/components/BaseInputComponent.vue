@@ -14,7 +14,7 @@
       name="pepicons-pop:eye"
       v-if="eye"
       size="24px"
-      class="absolute right-6 top-12 cursor-pointer"
+      class="absolute right-6 bottom-[1.25rem] cursor-pointer"
       @click="changeInputType"
     />
   </div>
@@ -57,13 +57,13 @@ const changeInputType = () => {
 };
 const inputClasses = computed(() => {
   if (props.inputType === "checkbox") {
-    return "h-4 w-4 bg-red-primary border-none outline-none focus:outline-none";
+    return "h-4 w-4 bg-red-primary p-2 border-none outline-none focus:outline-none";
   }
   return "border-blue-secondary border outline-none focus:outline-none p-3 rounded-lg w-full mb-2 placeholder:text-black-primary";
 });
 </script>
 
-<style scoped>
+<style>
 label:after {
   content: " *";
   color: red;

@@ -1,9 +1,11 @@
 <template>
   <Transition name="modal">
-    <div class="modal bg-blue-primary md:w-[450px] md:h-[350px] p-3 rounded-lg">
-      <h1 class="headers">View Employee Details</h1>
-      <div class="border-t border-b border-white-primary h-[70%] my-3">
-        <p>lmao</p>
+    <div
+      class="modal bg-blue-primary md:w-[450px] md:min-h-[350px] p-3 rounded-lg"
+    >
+      <h1 class="headers">{{ title }}</h1>
+      <div class="border-t border-b py-4 border-white-primary min-h-[70%] my-3">
+        <slot name="body" />
       </div>
       <div class="flex justify-end">
         <BaseButton
@@ -20,6 +22,9 @@
 const emit = defineEmits<{
   (e: "closeModal"): void;
 }>();
+defineProps<{
+  title: string;
+}>();
 const closeModal = () => {
   emit("closeModal");
 };
@@ -28,7 +33,6 @@ const closeModal = () => {
 <style scoped>
 .modal-enter-from,
 .modal-leave-to {
-  opacity: 0;
   transform: translateY(-100%);
 }
 .modal-enter-to,
@@ -42,8 +46,13 @@ const closeModal = () => {
 }
 .modal {
   position: fixed;
-  top: 5%;
+  top: 7%;
   left: 40%;
   z-index: 1000;
+}
+@media (max-width: 540px) {
+  .modal {
+    left: 10%;
+  }
 }
 </style>
