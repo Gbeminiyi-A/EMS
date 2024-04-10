@@ -17,25 +17,25 @@
               :inputType="i.type"
               :labelText="i.label"
               :placeholder="i.placeholder"
-              v-model="i.value"
+              v-model.trim="i.value"
             />
             <BaseSelectOptionComponent
               labelText="Gender"
               placeholder="Select Gender"
               :options="genderOptions"
-              v-model="gender"
+              v-model.trim="gender"
             />
             <BaseSelectOptionComponent
               labelText="Marital Status"
               placeholder="Select Status"
               :options="maritalStatusOptions"
-              v-model="maritalStatus"
+              v-model.trim="maritalStatus"
             />
             <BaseSelectOptionComponent
               labelText="Highest Education"
               placeholder="Choose..."
               :options="educationOptions"
-              v-model="highestEducation"
+              v-model.trim="highestEducation"
             />
           </div>
           <h3 class="text-gray-primary text-center">Work Details</h3>
@@ -47,37 +47,41 @@
               inputType="text"
               labelText="Skills"
               placeholder="Skills separated by comma"
-              v-model="skills"
+              v-model.trim="skills"
             />
             <BaseInputComponent
               :eye="false"
               inputType="date"
               labelText="Date of Joining"
-              v-model="dateJoined"
+              v-model.trim="dateJoined"
             />
             <BaseInputComponent
               :eye="false"
               inputType="text"
               labelText="Manager"
               placeholder="Enter Manager's Name"
-              v-model="manager"
+              v-model.trim="manager"
             />
             <BaseSelectOptionComponent
               labelText="Designation"
               placeholder="Choose..."
-              v-model="designation"
+              v-model.trim="designation"
               :options="designationOptions"
             />
             <BaseSelectOptionComponent
               labelText="Status"
               placeholder="Choose..."
-              v-model="status"
+              v-model.trim="status"
               :options="workStatusOptions"
             />
           </div>
         </fieldset>
-        <BaseButton class="font-bold bg-white-primary p-3 rounded-lg shadow hover:shadow-lg duration-200 shadow-red-primary block mx-auto my-8">
-          <img src="@/assets/infinity-spinner.gif" class="w-8 inline" v-if="isSubmitting"/>
+        <BaseButton class="red-button-2 mx-auto block" :disabled="isSubmitting">
+          <img
+            src="@/assets/ring-spinner.gif"
+            class="w-8 inline"
+            v-if="isSubmitting"
+          />
           <span v-if="!isSubmitting">Submit details</span>
           <span v-else>Submitting...</span>
         </BaseButton>
@@ -161,8 +165,6 @@ const v$ = useVuelidate(
   {
     personalData: {
       required,
-      // minLength: minLength(7),
-      // Add other validators as needed
     },
     gender: { required },
     maritalStatus: { required },
@@ -187,19 +189,20 @@ const v$ = useVuelidate(
 );
 
 //reset form
-const resetForm = () => {
-  personalData.value.forEach((input) => {
-    input.value = "";
-  });
-  gender.value = "";
-  maritalStatus.value = "";
-  highestEducation.value = "";
-  skills.value = "";
-  dateJoined.value = "";
-  designation.value = "";
-  manager.value = "";
-  status.value = "";
-};
+const { resetForm } = useResetForm();
+// const resetForm = () => {
+//   personalData.value.forEach((input) => {
+//     input.value = "";
+//   });
+//   gender.value = "";
+//   maritalStatus.value = "";
+//   highestEducation.value = "";
+//   skills.value = "";
+//   dateJoined.value = "";
+//   designation.value = "";
+//   manager.value = "";
+//   status.value = "";
+// };
 
 //employee's Data object
 const handleFormSubmit = async () => {
@@ -229,9 +232,8 @@ const handleFormSubmit = async () => {
   employeeObject.value["manager"] = manager.value;
   employeeObject.value["status"] = status.value;
 
-  await createEmployee(employeeObject.value);
-  console.log(employeeObject.value);
-  resetForm();
+  await createEmployee(toRaw(employeeObject.value));
+  resetForm(employeeObject.value);
   isSubmitting.value = false;
 };
 </script>

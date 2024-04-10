@@ -1,7 +1,12 @@
 <template>
   <div class="flex justify-between w-full items-center font-semibold text-md">
     <h3 class="text-white-primary mb-4">{{ title }}</h3>
-    <p class="text-red-primary hover:text-white-primary duration-200 cursor-pointer" v-if="status">{{ status }}</p>
+    <p
+      class="text-red-primary hover:text-white-primary duration-200 cursor-pointer"
+      v-if="status"
+    >
+      {{ status }}
+    </p>
   </div>
   <div class="table-container">
     <table class="border-collapse w-full">
@@ -43,7 +48,7 @@
         </td>
         <td class="border">
           <BaseButton
-            @click="showDetails(data.id)"
+            @click="showDetails(data)"
             v-if="buttonName"
             class="bg-red-primary text-white-primary p-1 rounded hover:bg-red-secondary duration-150"
             >{{ buttonName }}</BaseButton
@@ -65,6 +70,7 @@ const props = defineProps<{
   buttonName: string | boolean;
   showCheckBox: boolean;
   datas: any;
+  keysToInclude?: string[];
 }>();
 const getLength = computed(() => {
   if (props.buttonName) {
@@ -72,13 +78,12 @@ const getLength = computed(() => {
   }
   return props.projectHeaders.length;
 });
-// Create a computed property that filters the datas array
-const keysToInclude = ref(['id', 'name', 'designation', 'skills', 'date_joined']);
 
+// Create a computed property that filters the datas array to only include the keys specified in the keysToInclude prop
 const filteredDatas = computed(() => {
-  return props.datas.map(data => {
+  return props.datas.map((data) => {
     let filteredData = {};
-    keysToInclude.value.forEach(key => {
+    props.keysToInclude.forEach((key) => {
       filteredData[key] = data[key];
     });
     return filteredData;
@@ -89,7 +94,11 @@ const emit = defineEmits<{
   (e: "showDetails", data): any;
 }>();
 const showDetails = (data: any) => {
-  emit("showDetails", data);
+  if ("id" in data) {
+    emit("showDetails", data);
+  } else if ("project_id" in data) {
+    emit("showDetails", data);
+  }
 };
 </script>
 

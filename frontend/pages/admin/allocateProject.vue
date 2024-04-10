@@ -5,7 +5,7 @@
     v-else
   >
     <h1 class="headers">Project Allocation</h1>
-    <div
+    <div v-if="!currentEmployee"
       class="bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-8 grid gap-4 md:grid-cols-2 place-content-between"
     >
       <BaseInputComponent
@@ -13,10 +13,12 @@
         labelText="Employee Id"
         inputType="number"
         placeholder="Enter Employee Id"
+        v-model="employeeId"
       />
       <div class="p-4 md:p-0">
         <label class="label">Get Data</label>
         <BaseButton
+          @click="fetchDetails(employeeId)"
           class="bg-red-primary font-bold text-white-primary p-3 rounded-md w-full hover:bg-red-secondary duration-150 shadow-md"
           >Fetch Details</BaseButton
         >
@@ -24,12 +26,13 @@
     </div>
     <div
       class="bg-blue-secondary w-[100%] lg:w-[700px] h-auto rounded-xl p-8 block"
+      v-if="currentEmployee"
     >
-      <div class="grid grid-cols-2">
-        <EmployeeProfileCard :employeeData="employeeData" />
+      <div class="grid grid-cols-3 gap-6">
+        <EmployeeProfileCard :employeeData="currentEmployee" />
       </div>
 
-      <div class="grid md:grid-cols-2 place-content-center">
+      <div class="grid md:grid-cols-2 place-content-center my-8 gap-8">
         <BaseSelectOptionComponent
           labelText="Project Allocate"
           placeholder="Choose Project"
@@ -57,39 +60,22 @@
 
 <script setup lang="ts">
 const loading = ref(true);
+let currentEmployee = ref(null);
+const employeeId = ref("");
+const employer = useEmployer();
+//functions
+const fetchDetails = (id: string) => {
+  currentEmployee.value = employer.employees.find(
+    (employee) => employee.id == id
+  );
+  console.log(currentEmployee.value);
+};
+
+//page meta
 definePageMeta({
   layout: "dashboard",
 });
-const employeeData = ref([
-  {
-    title: "Employee ID",
-    data: 1007,
-  },
-  {
-    title: "Employee Name",
-    data: "SK Verma",
-  },
-  {
-    title: "Gender",
-    data: "Male",
-  },
-  {
-    title: "Marital Status",
-    data: "Single",
-  },
-  {
-    title: "Date of joining",
-    data: "2024-01-04",
-  },
-  {
-    title: "Highest Education",
-    data: "MSc",
-  },
-  {
-    title: "Skills",
-    data: "Python, MySql, Flask, Vuejs",
-  },
-]);
+//lifecycle hooks
 onMounted(() => {
   setTimeout(() => {
     loading.value = false;

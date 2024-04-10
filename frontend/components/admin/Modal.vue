@@ -46,13 +46,15 @@ const closeModal = () => {
 }
 .modal {
   position: fixed;
-  top: 7%;
+  top: 0%;
   left: 40%;
   z-index: 1000;
+  max-height: 100vh;
 }
 @media (max-width: 540px) {
   .modal {
-    left: 10%;
+    left: 20%;
+    top: 10%;
   }
 }
 </style>

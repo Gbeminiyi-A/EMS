@@ -17,7 +17,10 @@
           <BaseSelectOptionComponent
             labelText="Designation"
             placeholder="Choose..."
-            v-for="i in 2"
+          />
+          <BaseSelectOptionComponent
+            labelText="Pay Band"
+            placeholder="Choose..."
           />
           <BaseInputComponent
             v-for="i in inputsData"
@@ -65,6 +68,12 @@ const inputsData = ref<Input[]>([
     value: "",
   },
   {
+    label: "Additional Allowance",
+    placeholder: "Enter Additional Allowance",
+    type: "number",
+    value: "",
+  },
+  {
     label: "Misc Allowance",
     placeholder: "Enter Misc Allowance",
     type: "number",
@@ -79,6 +88,12 @@ const inputsData = ref<Input[]>([
   {
     label: "Professional Tax",
     placeholder: "Enter Professional Tax",
+    type: "number",
+    value: "",
+  },
+  {
+    label: "Income Tax",
+    placeholder: "Enter Income Tax",
     type: "number",
     value: "",
   },

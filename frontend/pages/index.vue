@@ -13,27 +13,33 @@
       <h1
         class="font-bold text-2xl text-center text-white-primary mb-8 uppercase"
       >
-        Ems Login
+        Employee management system
       </h1>
-      <FormComponent @submit="handleSignIn">
-        <BaseInputComponent
-          type="email"
-          placeholder="example@gmail.com"
-          labelText="Email Address"
-          v-model="employeeData.email"
-        />
-        <BaseInputComponent
-          :eye="true"
-          type="password"
-          placeholder="password"
-          labelText="Password"
-          v-model="password"
-        />
-        <div class="flex justify-center items-center mt-6">
-          <BaseButton :disabled="true" class="red-button"> Sign In </BaseButton>
+      <FormComponent>
+        <component :is="selectedComponent" />
+        <div>
+          <p
+            class="text-white-primary text-center mt-4"
+            v-if="selectedComponent === AuthLogIn"
+          >
+            Don't have an account?
+            <span
+              @click="selectedComponent = AuthSignUp"
+              class="hover:text-red-primary duration-200 cursor-pointer"
+              >Sign Up</span
+            >
+          </p>
+          <p class="text-white-primary text-center mt-4" v-else>
+            Already an admin?
+            <span
+              @click="selectedComponent = AuthLogIn"
+              class="hover:text-red-primary duration-200 cursor-pointer"
+              >Log In</span
+            >
+          </p>
         </div>
         <div
-          class="border-2 border-white-primary min-w-full relative mt-10 rounded-2xl"
+          class="border border-white-primary min-w-full relative mt-8 rounded-2xl"
         >
           <div
             class="text-white-primary p-2 bg-blue-secondary absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
@@ -49,15 +55,9 @@
 </template>
 
 <script setup lang="ts">
-const employeeData = useEmployeeData();
-const password = ref<string>("");
-const handleSignIn = () => {
-  if (!employeeData.isAdmin) {
-    navigateTo("/dashboard/myprofile");
-    return;
-  }
-  navigateTo("/admin/dashboard");
-};
+import AuthLogIn from "../components/auth/Login.vue";
+import AuthSignUp from "../components/auth/SignUp.vue";
+const selectedComponent = shallowRef(AuthLogIn);
 </script>
 
 <style scoped></style>

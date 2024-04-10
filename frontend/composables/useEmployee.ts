@@ -17,7 +17,7 @@ export default function useCreateEmployee() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(toRaw(employeeObject)),
+          body: JSON.stringify(employeeObject),
         }
       );
       if (res) {

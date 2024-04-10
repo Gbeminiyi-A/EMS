@@ -3,13 +3,10 @@
   <AdminModal
     v-show="showModal"
     @closeModal="showModal = false"
-    title="View Employee Details"
+    :title="modalTitle"
   >
     <template #body>
-      <AdminViewContent
-        :currentEmployeeId="currentEmployeeId"
-        v-if="currentEmployeeId"
-      />
+      <AdminViewContent :currentData="currentData" v-if="currentData" />
     </template>
   </AdminModal>
   <!-- end -->
@@ -29,6 +26,10 @@
         status="Show all"
         buttonName="View"
         :showCheckBox="true"
+        :datas="companyProjects.projects"
+        :keysToInclude="keysToIncludeForProjects"
+        v-if="companyProjects.projects"
+        @showDetails="passProjectData"
       />
     </div>
     <div class="bg-blue-secondary w-full p-3 rounded">
@@ -38,9 +39,10 @@
         status="Show all"
         buttonName="View"
         :showCheckBox="true"
-        :datas="employees"
+        :datas="employer.employees"
+        :keysToInclude="keysToIncludeForEmployees"
         @showDetails="passEmployeeData"
-        v-if="employees"
+        v-if="employer.employees"
       />
     </div>
   </div>
@@ -50,26 +52,35 @@
 const loading = ref(true);
 const showModal = ref(false);
 const toast = useToast();
-const currentEmployeeId = ref(null);
+const currentData = ref(null);
+const modalTitle = ref("");
 
 const { getEmployees } = useEmployee();
-const { employees } = storeToRefs(useEmployer());
+const { getProjects } = useProjects();
+const employer = useEmployer();
+const companyProjects = useCompanyProjects();
 
 //page meta
 definePageMeta({
   layout: "dashboard",
 });
 //functions
-const passEmployeeData = (data: any) => {
+const updateModal = (title: string, data: any) => {
   showModal.value = true;
-  currentEmployeeId.value = data;
-  console.log(currentEmployeeId.value);
+  modalTitle.value = title;
+  currentData.value = data;
+};
+const passEmployeeData = (data: any) => {
+  updateModal("View Employee Details", data);
+};
+const passProjectData = (data: any) => {
+  updateModal("View Project Details", data);
 };
 //datas
-const employerDetails = ref([
+const employerDetails = computed(() => [
   {
     title: "Total Employees",
-    data: employees.value.length,
+    data: employer.employees.length,
     iconName: "clarity:employee-group-solid",
   },
   {
@@ -79,14 +90,30 @@ const employerDetails = ref([
   },
   {
     title: "Total Projects",
-    data: 3,
+    data: companyProjects.projects.length,
     iconName: "carbon:ibm-cloud-projects",
   },
   {
     title: "Total Revenue",
-    data: `₦${9000 * employees.value.length}`,
+    data: `₦${6578 * employer.employees.length}`,
     iconName: "clarity:employee-group-solid",
   },
+]);
+
+const keysToIncludeForEmployees = ref([
+  "id",
+  "name",
+  "designation",
+  "skills",
+  "date_joined",
+]);
+const keysToIncludeForProjects = ref([
+  "project_id",
+  "project_name",
+  "project_domain",
+  "client_name",
+  "start_date",
+  "end_date",
 ]);
 
 const recentProjectHeaders = ref<string[]>([
@@ -109,6 +136,7 @@ const recentEmployeesHeaders = ref<string[]>([
 //lifecycle hooks
 onMounted(async () => {
   await getEmployees();
+  await getProjects();
   loading.value = false;
 });
 </script>

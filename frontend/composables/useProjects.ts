@@ -1,11 +1,11 @@
 //composable with asynchoronous function to get and post projects data
-import type Employee from "~/types/Employee";
-// import { useToast } from "@/stores/toast";
+import type Project from "@/types/Project";
 
-export default function useCreateEmployee() {
+export default function useProjects() {
   const toast = useToast();
+  const companyProjects = useCompanyProjects();
 
-  const createProject = async () => {
+  const createProject = async (projectObject: Project) => {
     try {
       const res = await $fetch(
         "https://ems-backend-9ojf.onrender.com/projects/",
@@ -14,7 +14,7 @@ export default function useCreateEmployee() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: "",
+          body: JSON.stringify(projectObject),
         }
       );
       if (res) {
@@ -39,7 +39,7 @@ export default function useCreateEmployee() {
         }
       );
       if (res) {
-        console.log(res);
+        companyProjects.projects = res.projects;        
       }
     } catch (err) {
       toast.addToast("Couldn't fetch data", "error");
